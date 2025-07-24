@@ -3,6 +3,7 @@ import express from "express";
 import { connectDB } from "./config/db";
 import { seedAdminUser } from "./config/seed";
 import authRoutes from "./routes/auth";
+import packageRoutes from "./routes/packages";
 import { errorHandler } from "./middleware/error";
 import { logger } from "./utils/logger";
 
@@ -13,6 +14,7 @@ const app = express();
 app.use(express.json());
 
 app.use("/api/auth", authRoutes);
+app.use("/api/packages", packageRoutes);
 
 app.use(errorHandler);
 

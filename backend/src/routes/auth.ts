@@ -4,6 +4,7 @@ import {
   refresh,
   register,
   getUsers,
+  getCouriersController,
   deleteUser,
 } from "../controllers/auth";
 import {
@@ -27,8 +28,13 @@ router.post(
   checkValidation,
   register
 );
-
 router.get("/users", verifyToken, restrictTo("ADMIN"), getUsers);
+router.get(
+  "/users/couriers",
+  verifyToken,
+  restrictTo("ADMIN", "DISPATCHER"),
+  getCouriersController
+);
 router.delete(
   "/users/:id",
   verifyToken,
