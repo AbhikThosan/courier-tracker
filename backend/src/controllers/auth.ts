@@ -4,9 +4,10 @@ import { logger } from "../utils/logger";
 import {
   LoginRequest,
   RefreshTokenRequest,
+  JwtPayload,
 } from "../interfaces/auth.interface";
 import { RegisterRequest } from "../interfaces/user.interface";
-import { deleteUserById, getAllUsers } from "../lib/users";
+import { deleteUserById, getAllUsers, getCouriers } from "../lib/users";
 
 export const login = async (
   req: Request<{}, {}, LoginRequest>,
@@ -62,6 +63,20 @@ export const getUsers = async (req: Request, res: Response): Promise<void> => {
   } catch (error) {
     logger.error("Get users error:", error);
     res.status(500).json({ error: "Internal server error" });
+  }
+};
+
+export const getCouriersController = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
+  try {
+    const user = req.user as JwtPayload;
+    const couriers = await getCouriers(user);
+    res.status(200).json(couriers);
+  } catch (error) {
+    logger.error("Get couriers error:", error);
+    res.status(403).json({ error: (error as Error).message });
   }
 };
 
