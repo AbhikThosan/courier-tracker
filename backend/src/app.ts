@@ -2,6 +2,7 @@ import dotenv from "dotenv";
 import express from "express";
 import { connectDB } from "./config/db";
 import { seedAdminUser } from "./config/seed";
+import { corsMiddleware } from "./config/cors";
 import authRoutes from "./routes/auth";
 import packageRoutes from "./routes/packages";
 import { errorHandler } from "./middleware/error";
@@ -10,6 +11,10 @@ import { logger } from "./utils/logger";
 dotenv.config();
 
 const app = express();
+
+app.use(corsMiddleware);
+
+app.options("*", corsMiddleware);
 
 app.use(express.json());
 
